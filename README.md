@@ -1,8 +1,13 @@
 [![Deploy to Firebase Hosting on merge](https://github.com/sofianedjm/Firebase-Student-Rating-App/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/sofianedjm/Firebase-Student-Rating-App/actions/workflows/firebase-hosting-merge.yml)
+[![npm version](https://badge.fury.io/js/npm.svg)](https://badge.fury.io/js/npm)
+[![Node.js Version](https://img.shields.io/badge/node.js-v21.6.1-green.svg)](https://nodejs.org/)
+[![Firebase](https://img.shields.io/badge/firebase-v10.8.0-orange.svg)](https://firebase.google.com/)
 
-# Projet de Système de Notation avec Firebase
 
-## Structure de l'Équipe
+
+# Système de Notation avec Firebase
+
+## Structure de l'équipe
 - Djemaa Sofiane
 - Jack Cai
 - Samir Jout
