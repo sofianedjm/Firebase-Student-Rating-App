@@ -1,3 +1,5 @@
+[![Deploy to Firebase Hosting on merge](https://github.com/sofianedjm/Firebase-Student-Rating-App/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/sofianedjm/Firebase-Student-Rating-App/actions/workflows/firebase-hosting-merge.yml)
+
 # Projet de Système de Notation avec Firebase
 
 ## Structure de l'Équipe
