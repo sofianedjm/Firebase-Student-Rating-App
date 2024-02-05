@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../styles/login.css" rel="stylesheet" type="text/css" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Page de détail</title>
+</head>
+<body>
+<div>
+    <nav class="navbar fixed-top navbar-light bg-light">
+        <a class="navbar-brand" href="#">Home</a>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <div>
+            <a class="navbar-brand " href="#">register</a>
+            <a class="navbar-brand " href="#">log in</a>
+        </div>
+    </nav>
+    <nav class="navbar navbar-light bg-light" id="monBloc">
+        <a class="navbar-brand" href="#">Home</a>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <div>
+            <a class="navbar-brand " href="#">register</a>
+            <a class="navbar-brand " href="#">log in</a>
+        </div>
+    </nav>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="https://www.pokepedia.fr/images/thumb/c/cc/Carapuce-RFVF.png/375px-Carapuce-RFVF.png" class="img-fluid" alt="Image du produit">
+        </div>
+
+        <div class="col-md-6">
+            <h2>Nom du Produit</h2>
+            <p>Description du produit...</p>
+            <strong>Note du Produit : </strong>
+            <span id="noteProduit">4</span>
+
+
+            <div class="form-group">
+                <label for="commentaires">Commentaires :</label>
+                <textarea class="form-control" id="commentaires" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="evaluation">Évaluation :</label>
+                <select class="form-control" id="evaluation">
+                    <option value="5">5 étoiles</option>
+                    <option value="4">4 étoiles</option>
+                    <option value="3">3 étoiles</option>
+                    <option value="2">2 étoiles</option>
+                    <option value="1">1 étoile</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Soumettre</button>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div>
+                <strong>Commentaires des Utilisateurs :</strong>
+                <ul id="listeCommentaires">
+                    <li>Excellent produit! - par Utilisateur1 Note: 4 étoiles</li>
+                    <li>Très satisfait de mon achat. - par Utilisateur2 Note: 3 étoiles</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

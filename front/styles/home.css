@@ -10,3 +10,7 @@
     width: 18rem;
     margin-bottom: 20px;
 }
+
+#monBloc {
+    visibility: hidden;
+}
