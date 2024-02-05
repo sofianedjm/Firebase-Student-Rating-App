@@ -1,97 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../styles/login.css" rel="stylesheet" type="text/css" />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
     <title>Page d'inscription</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Inscription</h3>
-                    </div>
-                    <div class="card-body">
-                        <form id="signupForm">
-                            <div class="form-group">
-                                <label for="email">Email :</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Mot de passe :</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Entrez votre mot de passe" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="passwordConfirmation">Confirmez votre mot de passe :</label>
-                                <input type="password" class="form-control" id="passwordConfirmation" name="passwordConfirmation" placeholder="Entrez votre mot de passe" required>
-                            </div>
-                            <button class="btn btn-primary btn-block" onclick="signup()">S'inscrire</button>
-                        </form>
-                    </div>
-                </div>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="text-center">Inscription</h3>
             </div>
+            <div class="card-body">
+              <div id="signupForm">
+                <div class="form-group">
+                  <label for="email">Email :</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="E-mail"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Mot de passe :</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Entrez votre mot de passe"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="passwordConfirmation"
+                    >Confirmez votre mot de passe :</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="passwordConfirmation"
+                    name="passwordConfirmation"
+                    placeholder="Entrez votre mot de passe"
+                    required
+                  />
+                </div>
+                <button class="btn btn-primary btn-block" id="registerBtn">
+                  S'inscrire
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</body>
-        <!-- Placez ce script après la déclaration de la fonction signup -->
-        <script type="module">
-        
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    
-            import {
-            getFirestore,
-            collection,
-            getDocs,
-            setDoc,
-            addDoc,
-            doc,
-            } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    
-            import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    
-            const firebaseConfig = {
-            apiKey: "AIzaSyDE7XOEw-un4Z5rJVBMQPuZJ2ADxzFgA50",
-            authDomain: "fir-student-rating-app.firebaseapp.com",
-            projectId: "fir-student-rating-app",
-            storageBucket: "fir-student-rating-app.appspot.com",
-            messagingSenderId: "893481620816",
-            appId: "1:893481620816:web:662a0041d2343ed0f74855",
-            measurementId: "G-25X6JZ06JT",
-            };
-    
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-            const auth = getAuth();
-            
-                function signup() {
-                    console.log("INSIDE");
-                    const email = document.getElementById('email').value;
-                    const password = document.getElementById('password').value;
-                    const passwordConfirmation = document.getElementById('passwordConfirmation').value;
-        
-                    if (password !== passwordConfirmation) {
-                        alert("Les mots de passe ne correspondent pas.");
-                        return;
-                    }
-                    
-                    auth.createUserWithEmailAndPassword(email, password)
-                        .then((userCredential) => {
-                            // Utilisateur créé avec succès
-                            console.log("Utilisateur créé :", userCredential.user);
-                            alert("Inscription réussie !");
-        
-                        })
-                        .catch((error) => {
-                            // Gestion des erreurs lors de la création de l'utilisateur
-                            console.error("Erreur lors de l'inscription :", error.message);
-                            alert("Erreur lors de l'inscription : " + error.message);
-                        });
-                }
-            </script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        setDoc,
+        addDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDE7XOEw-un4Z5rJVBMQPuZJ2ADxzFgA50",
+        authDomain: "fir-student-rating-app.firebaseapp.com",
+        projectId: "fir-student-rating-app",
+        storageBucket: "fir-student-rating-app.appspot.com",
+        messagingSenderId: "893481620816",
+        appId: "1:893481620816:web:662a0041d2343ed0f74855",
+        measurementId: "G-25X6JZ06JT",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth();
+
+      async function signup() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const passwordConfirmation = document.getElementById(
+          "passwordConfirmation"
+        ).value;
+
+        if (password !== passwordConfirmation) {
+          alert("Les mots de passe ne correspondent pas.");
+          return;
+        }
+
+        await createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Utilisateur créé avec succès
+            console.log("Utilisateur créé :", userCredential.user);
+            alert("Inscription réussie !");
+          })
+          .catch((error) => {
+            // Gestion des erreurs lors de la création de l'utilisateur
+            console.error("Erreur lors de l'inscription :", error.message);
+            alert("Erreur lors de l'inscription : " + error.message);
+          });
+      }
+
+      const element = document.getElementById("registerBtn");
+      element.onclick = signup;
+    </script>
+  </body>
 </html>
