@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../styles/login.css" rel="stylesheet" type="text/css" />
-    <link
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-            rel="stylesheet"
-    />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 
     <title>Page d'inscription</title>
 </head>
@@ -66,9 +63,7 @@
                             />
                         </div>
                         <div class="form-group">
-                            <label for="passwordConfirmation"
-                            >Confirmez votre mot de passe :</label
-                            >
+                            <label for="passwordConfirmation">Confirmez votre mot de passe :</label>
                             <input
                                     type="password"
                                     class="form-control"
@@ -88,64 +83,97 @@
     </div>
 </div>
 <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            setDoc,
+            addDoc,
+            doc,
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-      import {
-        getFirestore,
-        collection,
-        getDocs,
-        setDoc,
-        addDoc,
-        doc,
-      } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDE7XOEw-un4Z5rJVBMQPuZJ2ADxzFgA50",
+            authDomain: "fir-student-rating-app.firebaseapp.com",
+            projectId: "fir-student-rating-app",
+            storageBucket: "fir-student-rating-app.appspot.com",
+            messagingSenderId: "893481620816",
+            appId: "1:893481620816:web:662a0041d2343ed0f74855",
+            measurementId: "G-25X6JZ06JT",
+        };
 
-      import {
-        getAuth,
-        signInWithEmailAndPassword,
-      } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth();
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyDE7XOEw-un4Z5rJVBMQPuZJ2ADxzFgA50",
-        authDomain: "fir-student-rating-app.firebaseapp.com",
-        projectId: "fir-student-rating-app",
-        storageBucket: "fir-student-rating-app.appspot.com",
-        messagingSenderId: "893481620816",
-        appId: "1:893481620816:web:662a0041d2343ed0f74855",
-        measurementId: "G-25X6JZ06JT",
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-      const auth = getAuth();
-
-      async function signin() {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const passwordConfirmation = document.getElementById(
-          "passwordConfirmation"
-        ).value;
-
-        if (password !== passwordConfirmation) {
-          alert("Les mots de passe ne correspondent pas.");
-          return;
+        // Fonction pour sauvegarder l'id de session dans le local storage
+        function saveSessionIdToLocalStorage(id) {
+            localStorage.setItem('sessionId', id);
         }
 
-        await signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            // Utilisateur créé avec succès
-            console.log("Utilisateur créé :", userCredential.user);
-            alert("Connexion réussie !");
-          })
-          .catch((error) => {
-            // Gestion des erreurs lors de la création de l'utilisateur
-            console.error("Erreur lors de l'authentification :", error.message);
-            alert("Erreur lors de l'authentification : " + error.message);
-          });
-      }
+        // Fonction pour déconnecter l'utilisateur en vidant le local storage
+        function logout() {
+            localStorage.removeItem('sessionId');
+            alert('Déconnexion réussie !');
 
-      const element = document.getElementById("registerBtn");
-      element.onclick = signin;
+            // Rafraîchir la page après un court délai
+            setTimeout(() => {
+                location.reload();
+            }, 500);
+        }
+
+        // Fonction pour vérifier si le local storage est vide
+        function isLocalStorageEmpty() {
+            return localStorage.length === 0;
+        }
+
+        if (!isLocalStorageEmpty()) {
+            const logoutBtn = document.createElement('button');
+            logoutBtn.textContent = 'Déconnexion';
+            logoutBtn.className = 'btn btn-danger mt-2';
+            logoutBtn.onclick = logout;
+
+            document.getElementById('signupForm').appendChild(logoutBtn);
+        }
+
+        async function signin() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const passwordConfirmation = document.getElementById("passwordConfirmation").value;
+
+            if (password !== passwordConfirmation) {
+                alert("Les mots de passe ne correspondent pas.");
+                return;
+            }
+
+            await signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Utilisateur créé avec succès
+                    console.log("Utilisateur créé :", userCredential.user);
+                    saveSessionIdToLocalStorage(userCredential.user.uid); // Sauvegarder l'id de session
+                    alert("Connexion réussie !");
+
+                    setTimeout(() => {
+                        location.reload();
+                    }, 500);
+
+                    window.location.href = '../index.html';
+                })
+                .catch((error) => {
+                    // Gestion des erreurs lors de la création de l'utilisateur
+                    console.error("Erreur lors de l'authentification :", error.message);
+                    alert("Erreur lors de l'authentification : " + error.message);
+                });
+        }
+
+        const element = document.getElementById("registerBtn");
+        element.onclick = signin;
     </script>
 </body>
 </html>
