@@ -8,6 +8,75 @@
     <title>Page de détail</title>
 </head>
 <body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+        getFirestore,
+        getDoc,
+        doc,
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDE7XOEw-un4Z5rJVBMQPuZJ2ADxzFgA50",
+        authDomain: "fir-student-rating-app.firebaseapp.com",
+        projectId: "fir-student-rating-app",
+        storageBucket: "fir-student-rating-app.appspot.com",
+        messagingSenderId: "893481620816",
+        appId: "1:893481620816:web:662a0041d2343ed0f74855",
+        measurementId: "G-25X6JZ06JT",
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = urlParams.get('param');
+
+    const docRef = doc(db, "book", itemId);
+    const docSnap = await getDoc(docRef);
+    var selectedItem = ""
+
+    if (docSnap.exists()) {
+        selectedItem = docSnap.data()
+        console.log("Document data:", docSnap.data());
+    } else {
+        selectedItem = ""
+        console.log("No such document!");
+    }
+
+    const resultatsDiv = document.getElementById("resultat");
+    const title = document.createElement("h2");
+    title.textContent = selectedItem.title
+    const author = document.createElement("p");
+    author.textContent = selectedItem.author;
+    const description = document.createElement("p");
+    description.textContent = selectedItem.description;
+    resultatsDiv.appendChild(title);
+    resultatsDiv.appendChild(author);
+    resultatsDiv.appendChild(description);
+
+
+    const noteUsers = document.getElementById("listeCommentaires");
+    console.log(selectedItem.evaluations);
+    var noteMoyenneProduit = 0
+    Object.entries(selectedItem.evaluations).forEach( ([key,val]) => {
+        noteMoyenneProduit+=val;
+        var evals = document.createElement("li");
+        evals.textContent = "Utilisateurs: " + key + " Note: " + val;
+        noteUsers.appendChild(evals);
+    })
+
+
+    const noteProduit = document.getElementById("noteProduit");
+    const noteP = document.createElement("span");
+    noteP.textContent = selectedItem.evaluations
+    noteProduit.appendChild(noteP);
+
+
+
+
+
+</script>
+
 <div>
     <nav class="navbar fixed-top navbar-light bg-light">
         <a class="navbar-brand" href="#">Home</a>
@@ -38,20 +107,14 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="https://www.pokepedia.fr/images/thumb/c/cc/Carapuce-RFVF.png/375px-Carapuce-RFVF.png" class="img-fluid" alt="Image du produit">
+            <img src="https://static.vecteezy.com/system/resources/previews/009/384/332/non_2x/old-vintage-book-clipart-design-illustration-free-png.png" class="img-fluid" alt="Image du produit">
         </div>
 
         <div class="col-md-6">
-            <h2>Nom du Produit</h2>
-            <p>Description du produit...</p>
-            <strong>Note du Produit : </strong>
-            <span id="noteProduit">4</span>
-
-
-            <div class="form-group">
-                <label for="commentaires">Commentaires :</label>
-                <textarea class="form-control" id="commentaires" rows="3"></textarea>
+            <div id="resultat">
             </div>
+            <strong>Note du Produit : </strong>
+            <div id="noteProduit"></div>
 
             <div class="form-group">
                 <label for="evaluation">Évaluation :</label>
@@ -70,10 +133,8 @@
     <div class="row mt-4">
         <div class="col-md-12">
             <div>
-                <strong>Commentaires des Utilisateurs :</strong>
+                <strong>Notes des Utilisateurs :</strong>
                 <ul id="listeCommentaires">
-                    <li>Excellent produit! - par Utilisateur1 Note: 4 étoiles</li>
-                    <li>Très satisfait de mon achat. - par Utilisateur2 Note: 3 étoiles</li>
                 </ul>
             </div>
         </div>
