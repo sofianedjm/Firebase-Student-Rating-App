@@ -143,7 +143,7 @@
         const noteProduitMoyenne = noteProduitTotal/length
         const noteProduit = document.getElementById("noteProduit");
         const noteP = document.createElement("span");
-        noteP.textContent = noteProduitMoyenne;
+        noteP.textContent = noteProduitMoyenne.toFixed(2);
         noteProduit.appendChild(noteP);
     }
 </script>
