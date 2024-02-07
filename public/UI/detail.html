@@ -14,7 +14,16 @@
         getFirestore,
         getDoc,
         doc,
+        where,
+        query,
+        collection,
+        getDocs,
+        addDoc
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import {
+        onAuthStateChanged,
+        getAuth,
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyDE7XOEw-un4Z5rJVBMQPuZJ2ADxzFgA50",
@@ -43,38 +52,100 @@
         console.log("No such document!");
     }
 
-    const resultatsDiv = document.getElementById("resultat");
-    const title = document.createElement("h2");
-    title.textContent = selectedItem.title
-    const author = document.createElement("p");
-    author.textContent = selectedItem.author;
-    const description = document.createElement("p");
-    description.textContent = selectedItem.description;
-    resultatsDiv.appendChild(title);
-    resultatsDiv.appendChild(author);
-    resultatsDiv.appendChild(description);
+    init(selectedItem);
 
+    const maDiv = document.getElementById('evalUser');
+    maDiv.style.display = 'none';
+    if (!isLocalStorageEmpty()) {
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log(user.email);
+            } else {
+                console.log("fail");
+            }
+        });
+        maDiv.style.display = 'block';
+    }
+
+    const submitEval = document.getElementById("submitEval");
+    submitEval.onclick = funsubmitEval;
 
     const noteUsers = document.getElementById("listeCommentaires");
-    console.log(selectedItem.evaluations);
-    var noteMoyenneProduit = 0
-    Object.entries(selectedItem.evaluations).forEach( ([key,val]) => {
-        noteMoyenneProduit+=val;
-        var evals = document.createElement("li");
-        evals.textContent = "Utilisateurs: " + key + " Note: " + val;
-        noteUsers.appendChild(evals);
-    })
+    let noteProduitTotal = 0;
 
+    const q = query(collection(db, "evaluation"), where("book", "==", docRef));
+    const querySnapshot = await getDocs(q);
+    displayEval(querySnapshot);
+    displayMean(noteProduitTotal,querySnapshot.docs.length);
 
-    const noteProduit = document.getElementById("noteProduit");
-    const noteP = document.createElement("span");
-    noteP.textContent = selectedItem.evaluations
-    noteProduit.appendChild(noteP);
+    function init(selectedItem) {
+        const resultatsDiv = document.getElementById("resultat");
+        const title = document.createElement("h2");
+        title.textContent = selectedItem.title
+        const author = document.createElement("p");
+        author.textContent = "Auteur: " + selectedItem.author;
+        const description = document.createElement("p");
+        description.textContent = selectedItem.description;
+        const anneeParution = document.createElement("p");
+        anneeParution.textContent = "Année de parution: " + selectedItem.year;
+        resultatsDiv.appendChild(title);
+        resultatsDiv.appendChild(author);
+        resultatsDiv.appendChild(description);
+        resultatsDiv.appendChild(anneeParution);
+    }
 
+    function isLocalStorageEmpty() {
+        return localStorage.length === 0;
+    }
 
+    async function getUserEmail() {
+        const auth = getAuth();
+        let userMail;
 
+        await onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log(user.email);
+                userMail = user.email;
+            }
+        });
+        console.log(userMail);
+        return userMail
+    }
 
+    async function funsubmitEval() {
+        const commentaire = document.getElementById("commentaires").value;
+        const note = document.getElementById("evaluation").value;
+        const userEmail = await getUserEmail();
+        await addDoc(collection(db, "evaluation"), {
+            commentaire: commentaire,
+            note: Number(note),
+            user: userEmail,
+            book: docRef
+        });
+        location.reload();
+    }
 
+    function displayEval(querySnapshot) {
+        querySnapshot.forEach((doc) => {
+            const evaluation = doc.data();
+            noteProduitTotal+=evaluation.note;
+            const evals = document.createElement("li");
+            evals.textContent = "Utilisateurs: " + evaluation.user + " Note: " + evaluation.note;
+            noteUsers.appendChild(evals);
+            const comment = document.createElement("span");
+            comment.textContent = "Commentaire: " +evaluation.commentaire;
+            noteUsers.appendChild(comment);
+        });
+    }
+
+    function displayMean(noteProduitTotal,length) {
+        const noteProduitMoyenne = noteProduitTotal/length
+        const noteProduit = document.getElementById("noteProduit");
+        const noteP = document.createElement("span");
+        noteP.textContent = noteProduitMoyenne;
+        noteProduit.appendChild(noteP);
+    }
 </script>
 
 <div>
@@ -113,8 +184,13 @@
         <div class="col-md-6">
             <div id="resultat">
             </div>
-            <strong>Note du Produit : </strong>
-            <div id="noteProduit"></div>
+            <strong id="noteProduit">Note moyenne du Produit : </strong>
+
+            <div id="evalUser">
+            <div class="form-group">
+                <label for="commentaires">Commentaires :</label>
+                <textarea class="form-control" id="commentaires" rows="3"></textarea>
+            </div>
 
             <div class="form-group">
                 <label for="evaluation">Évaluation :</label>
@@ -127,7 +203,8 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Soumettre</button>
+            <button id="submitEval" type="submit" class="btn btn-primary">Soumettre</button>
+            </div>
         </div>
     </div>
     <div class="row mt-4">
