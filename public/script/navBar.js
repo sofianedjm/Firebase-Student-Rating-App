@@ -86,7 +86,7 @@ function logout() {
 }
 
 function isLocalStorageEmpty() {
-    return localStorage.length === 0;
+    return localStorage.getItem('sessionId') == null;
 }
 
 
