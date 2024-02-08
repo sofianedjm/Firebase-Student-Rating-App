@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../script/navBar.js"></script>
     <link href="../styles/login.css" rel="stylesheet" type="text/css" />
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -12,32 +13,7 @@
     <title>Page d'inscription</title>
   </head>
   <body>
-    <div>
-      <nav class="navbar fixed-top navbar-light bg-light">
-          <a class="navbar-brand" href="../index.html">Home</a>
-  
-          <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-          <div>
-              <a class="navbar-brand " href="#">Register</a>
-              <a class="navbar-brand " href="login.html">Log in</a>
-          </div>
-      </nav>
-      <nav class="navbar navbar-light bg-light" id="monBloc">
-          <a class="navbar-brand" href="#">Home</a>
-  
-          <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-          <div>
-              <a class="navbar-brand " href="#">register</a>
-              <a class="navbar-brand " href="#">log in</a>
-          </div>
-      </nav>
-  </div>
+    <div id="navBar"></div>
     <div class="container mt-5">
       <div class="row justify-content-center">
         <div class="col-md-6">
@@ -117,6 +93,8 @@
         appId: "1:893481620816:web:662a0041d2343ed0f74855",
         measurementId: "G-25X6JZ06JT",
       };
+
+      navBar2(); // Ne pas oublier d'avoir <div id="navBar">
 
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);

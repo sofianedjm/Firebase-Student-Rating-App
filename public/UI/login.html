@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <script src="../script/navBar.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="../styles/login.css" rel="stylesheet" type="text/css" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
@@ -9,27 +10,7 @@
     <title>Page de connexion</title>
 </head>
 <body>
-<div>
-    <nav class="navbar fixed-top navbar-light bg-light">
-        <a class="navbar-brand" href="#">Home</a>
-
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <div>
-            <a class="navbar-brand " href="#">Register</a>
-            <a class="navbar-brand " href="#">Log in</a>
-        </div>
-    </nav>
-    <nav class="navbar navbar-light bg-light" id="monBloc">
-        <a class="navbar-brand" href="#">Home</a>
-
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </nav>
+<div id="navBar">
 </div>
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -107,6 +88,8 @@
             measurementId: "G-25X6JZ06JT",
         };
 
+        navBar2(); // Ne pas oublier d'avoir <div id="navBar">
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -115,31 +98,6 @@
         // Fonction pour sauvegarder l'id de session dans le local storage
         function saveSessionIdToLocalStorage(id) {
             localStorage.setItem('sessionId', id);
-        }
-
-        // Fonction pour déconnecter l'utilisateur en vidant le local storage
-        function logout() {
-            localStorage.removeItem('sessionId');
-            alert('Déconnexion réussie !');
-
-            // Rafraîchir la page après un court délai
-            setTimeout(() => {
-                location.reload();
-            }, 500);
-        }
-
-        // Fonction pour vérifier si le local storage est vide
-        function isLocalStorageEmpty() {
-            return localStorage.length === 0;
-        }
-
-        if (!isLocalStorageEmpty()) {
-            const logoutBtn = document.createElement('button');
-            logoutBtn.textContent = 'Déconnexion';
-            logoutBtn.className = 'btn btn-danger mt-2';
-            logoutBtn.onclick = logout;
-
-            document.getElementById('signupForm').appendChild(logoutBtn);
         }
 
         async function signin() {

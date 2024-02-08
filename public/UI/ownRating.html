@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="../script/navBar.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../styles/login.css" rel="stylesheet" type="text/css" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -34,6 +35,9 @@
         appId: "1:893481620816:web:662a0041d2343ed0f74855",
         measurementId: "G-25X6JZ06JT",
     };
+
+    navBar2(); // Ne pas oublier d'avoir <div id="navBar">
+
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     if (!isLocalStorageEmpty()) {
@@ -86,31 +90,7 @@
     }
 
 </script>
-<div>
-    <nav class="navbar fixed-top navbar-light bg-light">
-        <a class="navbar-brand" href="#">Home</a>
-
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <div>
-            <a class="navbar-brand " href="#">register</a>
-            <a class="navbar-brand " href="#">log in</a>
-        </div>
-    </nav>
-    <nav class="navbar navbar-light bg-light" id="monBloc">
-        <a class="navbar-brand" href="#">Home</a>
-
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <div>
-            <a class="navbar-brand " href="#">register</a>
-            <a class="navbar-brand " href="#">log in</a>
-        </div>
-    </nav>
+<div id="navBar">
 </div>
 <div class="container mt-5">
     <h2 id="noteMoyenne">Note moyenne: </h2>
